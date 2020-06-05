@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+
+  wp-db:
+    image: library/mysql:5.7
+    container_name: wp-db
+    hostname: wp-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=wp
+      - MYSQL_USER=wp
+      - MYSQL_PASSWORD=wp
+      - MYSQL_DATABASE=wordpress
+    ports:
+      - "3006:3306/tcp"
+    volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  wp-app:
+    depends_on:
+      - wp-db
+    image: slummer87/docker-wordpress
+    container_name: wp-app
+    ports:
+      - 8081:8080
+    volumes:
+      - ../:/app
