@@ -47,4 +47,4 @@ USER www-data
 COPY --chown=www-data:www-data . .
 
 EXPOSE 8080
-ENTRYPOINT [ "/app/docker-entrypoint.sh" ]
+# ENTRYPOINT [ "/app/docker-entrypoint.sh" ]
