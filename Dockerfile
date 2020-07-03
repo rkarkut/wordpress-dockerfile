@@ -1,6 +1,6 @@
 #BASE
-FROM php:7.3-fpm as php-base
-WORKDIR /build
+FROM php:7.3-fpm
+#WORKDIR /build
 RUN apt-get update && \
     apt-get install -y \
     libpng-dev \
@@ -27,11 +27,11 @@ RUN apt-get update && \
     && apt autoremove -y --purge \
     && apt clean all
 
-# RUNTIME
-FROM php-base as php-runtime
-WORKDIR /app
-RUN chown -R www-data:www-data /app
-ENV CHROOT_WWW_DIR=/app
+## RUNTIME
+#FROM php-base as php-runtime
+#WORKDIR /app
+#RUN chown -R www-data:www-data /app
+#ENV CHROOT_WWW_DIR=/app
 
 # PHP-FPM
 COPY .docker/conf/php.ini $PHP_INI_DIR/php.ini
@@ -42,9 +42,9 @@ COPY .docker/conf/fpm.conf /usr/local/etc/php-fpm.d/www.conf
 RUN rm /etc/nginx/nginx.conf && chown -R www-data:www-data /var/www/html /run /var/lib/nginx /var/log/nginx
 COPY .docker/conf/nginx.conf /etc/nginx/nginx.conf
 
-USER www-data
-
-COPY --chown=www-data:www-data . .
-
-EXPOSE 8080
-# ENTRYPOINT [ "/app/docker-entrypoint.sh" ]
+#USER www-data
+#
+#COPY --chown=www-data:www-data . .
+#
+#EXPOSE 8080
+#ENTRYPOINT [ "/app/docker-entrypoint.sh" ]
